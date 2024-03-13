@@ -1,0 +1,18 @@
+version: "3"
+services:
+  jupyterlab:
+    container_name: robot-julia-ws
+    build: .
+    # ポートの設定("ホスト：コンテナ")
+    ports:
+      - "5000:8888"
+    # 環境変数の設定
+    environment:
+      GRANT_SUDO: "yes"
+    # ボリューム(データの永続化の場所)の設定(ホスト:コンテナ)
+    # ホスト内のworkディレクトリとコンテナ内の/home/jovyan/notebooks:zディレクトリが紐づいているイメージ
+    volumes:
+      - ./work:/home/jovyan/notebooks:z
+    # 最後にjupyterLabに接続するためのコマンドを実行する。
+    command: start.sh jupyter lab --NotebookApp.token='' --NotebookApp.contents_manager_class='jupytext.TextFileContentsManager'
+
